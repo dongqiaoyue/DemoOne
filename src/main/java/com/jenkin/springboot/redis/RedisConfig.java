@@ -1,7 +1,7 @@
 package com.jenkin.springboot.redis;
 
 import com.jenkin.springboot.pojo.RedisConfigBean;
-import com.jenkin.springboot.pojo.User;
+import com.jenkin.springboot.pojo.Plan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @author: jenkinwang
- * @date: 2018/10/15 14:12
  * @description:
  */
 @Configuration
@@ -38,8 +37,8 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, User> redisTemplate() {
-        RedisTemplate<String, User> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Plan> redisTemplate() {
+        RedisTemplate<String, Plan> redisTemplate = new RedisTemplate<>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setConnectionFactory(connectionFactory());
