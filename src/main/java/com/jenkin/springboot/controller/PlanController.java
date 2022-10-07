@@ -42,8 +42,14 @@ public class PlanController {
      * @return
      */
     @RequestMapping("/plan/{id}")
-    public Plan getPlanById(@PathVariable String id) {
-        return planService.getPlanById(id);
+    public ResponseEntity<?> getPlanById(@PathVariable String id) {
+        Plan plan = planService.getPlanById(id);
+        if (plan == null) {
+            JSONObject obj = new JSONObject();
+            obj.put("message", "object not found");
+            return new ResponseEntity<>(obj, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(plan, HttpStatus.OK);
     }
 
     /**
@@ -53,7 +59,7 @@ public class PlanController {
     public ResponseEntity<?> addPlan(@RequestBody String content) throws IOException {
         BaseJsonSchemaValidatorTest validator = new BaseJsonSchemaValidatorTest();
         JsonNode node = validator.getJsonNodeFromStringContent(content);
-        JsonSchema schema = validator.getJsonSchemaFromClasspath("F:\\springboot-redis-restful-api\\src\\main\\resources\\schema.json");
+        JsonSchema schema = validator.getJsonSchemaFromClasspath("/Users/dongqiaoyue/DemoOne/src/main/resources/schema.json");
         Set<ValidationMessage> errors = schema.validate(node);
 
         if (errors.size() > 0) {
@@ -96,7 +102,7 @@ public class PlanController {
         JSONObject result = new JSONObject();
         result.put("message", "delete success");
         result.put("objectId", id);
-        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }
